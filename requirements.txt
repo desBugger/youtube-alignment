@@ -1,0 +1,8 @@
+pandas>=2.0
+numpy>=1.24
+pytz>=2023.3
+scikit-learn>=1.3
+# Only needed with --rebuild-embeddings / to re-run from raw captures:
+# sentence-transformers>=2.2
+# hdbscan>=0.8.33
+# langdetect>=1.0.9

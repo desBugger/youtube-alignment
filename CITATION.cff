@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code, please cite the paper."
+title: "Two Buttons, One Feed: Aligning YouTube Recommendations Requires Both Controls"
+abstract: >-
+  Data and analysis code for a 2x2 factorial sock-puppet audit of YouTube's
+  explicit feedback controls ('like' and 'not interested') across twelve
+  simulated adolescent accounts.
+authors:
+  - family-names: Cho
+    given-names: Desiree
+    affiliation: "University of Oxford"
+  - family-names: Hale
+    given-names: Scott A.
+    affiliation: "Oxford Internet Institute, University of Oxford"
+  - family-names: Zhao
+    given-names: Jun
+    affiliation: "Department of Computer Science, University of Oxford"
+  - family-names: Shadbolt
+    given-names: Nigel
+    affiliation: "University of Oxford"
+  - family-names: Przybylski
+    given-names: Andrew K.
+    affiliation: "Oxford Internet Institute, University of Oxford"
+license: MIT
+date-released: 2025-09-11
+keywords:
+  - algorithm auditing
+  - recommender systems
+  - YouTube
+  - user agency
