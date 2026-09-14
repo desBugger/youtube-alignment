@@ -1,4 +1,4 @@
-# Two Buttons, One Feed
+# Two Buttons, One Feed: Aligning YouTube Recommendations \\Requires Both `Like' and `Not Interested' Buttons
 
 Data and analysis code for a controlled sock-puppet audit of YouTube's explicit
 feedback controls (`like` and `not interested`), run as a 2×2 factorial design
