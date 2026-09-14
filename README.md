@@ -28,6 +28,20 @@ the per-condition cutoffs used in the paper:
 python src/pipeline.py --window harmonised
 ```
 
+To regenerate the figures:
+
+```bash
+python src/figures.py
+```
+
+Two notes for anyone re-running from the raw captures rather than the derived
+files. Language detection is seeded in `config.py`, as `langdetect` is
+non-deterministic by default and it is the filter that reduces 5,932 records to
+5,296. Cluster assignments and LLM category labels are provided as data rather
+than regenerated, because the model snapshot used for labelling in June 2025 is
+no longer served by the provider; they are therefore inputs to the pipeline, not
+outputs of it.
+
 ## The experiment
 
 Twelve YouTube accounts configured as 13-year-olds were trained in synchrony
@@ -54,7 +68,9 @@ data/derived/      embeddings, cluster assignments, LLM category labels,
                    and the assembled analysed corpus
 src/config.py      every parameter, window and seed
 src/pipeline.py    raw captures -> reported numbers
-results/tables/    generated output
+src/figures.py     the paper's figures
+results/tables/    generated tables
+results/figures/   generated figures
 docs/DATASHEET.md  datasheet for the dataset (Gebru et al., 2021)
 ```
 
