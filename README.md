@@ -102,7 +102,7 @@ These are documented in the paper and reproduced by the pipeline.
    so it reduces observation time without biasing between-condition comparison.
    `python src/pipeline.py` prints the per-condition, per-date counts showing it.
 
-2. **One account failed.** `dislike3gamer2012` returned no video
+2. **One account failed.** `notInt_3` returned no video
    recommendations after 28 May, contributing 40 of 1,346 not-interested
    records (3.0%). The paper reports that condition as n=2. Set
    `EXCLUDE_FAILED_ACCOUNT = True` in `config.py` to drop it entirely as a

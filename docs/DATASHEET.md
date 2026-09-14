@@ -26,7 +26,7 @@ YouTube homepage of one account, with first and last observation timestamps.
 
 | type | rows | distinct titles |
 |---|---|---|
-| `video` (standard recommendations) | 7,716 | — |
+| `video` (standard recommendations) | 7,716 | 3,435 |
 | `short` (Shorts shelf) | 4,349 | 1,398 |
 | `feedAd` (in-feed advertisements) | 1,447 | 103 |
 | `videoAd` (in-video advertisements) | 717 | 75 |
@@ -48,7 +48,7 @@ none is objectionable.
 - A parser fault suspended `video` capture for **all twelve accounts** from
   30 May to 1 June 2025, while Shorts and advertisement capture continued. The
   outage is common to all conditions.
-- `dislike3gamer2012` returned no `video` records after 28 May, contributing 40
+- `notInt_3` returned no `video` records after 28 May, contributing 40
   rows (3.0% of its condition). The paper reports that condition as n=2.
 - The original analysis applied different end cutoffs per condition, and none to
   `notInt`. Both the original and a harmonised window are supported in code.

@@ -25,18 +25,18 @@ SEED = 0
 # They are retained (not stripped) so that per-account variation and the
 # collection interruptions documented in the paper stay independently checkable.
 CONDITIONS = {
-    "watch":    ["watchgamer2012", "watch2gamer2012", "watch3gamer2012"],
-    "like":     ["likegamer2012", "like2gamer2012", "like3gamer2012"],
-    "notInt":   ["dislikegamer2012", "dislike2gamer2012", "dislike3gamer2012"],
-    "combined": ["combinedgamer2012", "combined2gamer2012", "combined3gamer2012"],
+    "watch":    ["watch_1", "watch_2", "watch_3"],
+    "like":     ["like_1", "like_2", "like_3"],
+    "notInt":   ["notInt_1", "notInt_2", "notInt_3"],
+    "combined": ["combined_1", "combined_2", "combined_3"],
 }
 CONDITION_ORDER = ["watch", "like", "notInt", "combined"]
 
-# dislike3gamer2012 stopped returning video recommendations after 28 May 2025.
+# notInt_3 stopped returning video recommendations after 28 May 2025.
 # It contributes 40 of 1,346 not-interested records (3.0%). The paper reports
 # that condition as n=2; set to False to include it as a sensitivity check.
 EXCLUDE_FAILED_ACCOUNT = False
-FAILED_ACCOUNT = "dislike3gamer2012"
+FAILED_ACCOUNT = "notInt_3"
 
 BST = pytz.timezone("Europe/London")
 
