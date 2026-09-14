@@ -2,7 +2,7 @@
 
 Data and analysis code for a controlled sock-puppet audit of YouTube's explicit
 feedback controls (`like` and `not interested`), run as a 2×2 factorial design
-across twelve simulated adolescent accounts.
+across twelve simulated accounts.
 
 **Headline finding.** No single signal aligned the feed. Accounts that watched
 seventy on-interest videos to completion, engaging with nothing else, still
@@ -72,19 +72,13 @@ with `count`, `persona`, `type`, `title`, `url`, `channel`, `channel_url`,
 | `videoAd` — in-video advertisements | 717 | 75 |
 
 Only `video` rows are analysed in the paper. The Shorts and advertisement
-records are released unanalysed and are, to our knowledge, not available
-elsewhere for controlled minor-profile accounts under a factorial feedback
-manipulation.
+records are released and not analysed.
 
-Account identifiers and timestamps are **retained deliberately**. They contain
-no personal data — every account was created by the researchers — and they are
-what makes the per-account variation and the collection interruptions below
-independently checkable.
+Every account was created by the researchers.
 
 ## Known data issues
 
-These are documented in the paper and reproduced by the pipeline rather than
-silently patched.
+These are documented in the paper and reproduced by the pipeline.
 
 1. **Video capture outage, 30 May – 1 June 2025.** A parser fault suspended
    capture of standard video recommendations while Shorts and advertisement
@@ -107,36 +101,6 @@ silently patched.
    between conditions. This may be a real difference in how the Shorts shelf
    responds to explicit feedback, or a collection artefact. We flag it as an
    open question rather than a finding.
-
-## Reproducibility notes
-
-**What is regenerated.** Every reported statistic: divergence from control
-(raw and size-matched), category shares pooled and by period, the interaction
-test on three scales, and the missingness table.
-
-**What ships as data, and why.** Embeddings, cluster assignments and LLM
-category labels are inputs rather than outputs:
-
-- The GPT-4 snapshot used for labelling (June 2025) is no longer served by the
-  API, and the original code pinned the moving `gpt-4` alias rather than a
-  dated snapshot. The labels are therefore the artifact of record.
-- Language detection (`langdetect`) was **unseeded** in the original run, so the
-  exact set of rows surviving the language filter cannot be reconstructed. It is
-  seeded here (`config.SEED`) for anyone re-running from raw.
-- Re-embedding requires a 90MB model download for a deterministic result.
-
-**Bugs fixed relative to the original analysis**, all documented in-line:
-
-- The wrangling step referenced an undefined variable and could not run as
-  saved; the intended cutoff is now a named constant.
-- Batched LLM output was parsed by line order without stripping the bullet
-  prefix the model sometimes echoed back, producing `"- gaming-other"` as a
-  distinct category on 40 rows. Normalised, with a guard that raises on any
-  unexpected label.
-- Timestamps were absent from the embedded corpus, making a period split
-  impossible. `align_timestamps()` recovers them exactly by ordered subsequence
-  alignment rather than a key join, which would leave ~17% of rows ambiguous
-  because 357 titles were re-recommended on both sides of the training boundary.
 
 ## Licences
 
