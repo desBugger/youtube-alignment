@@ -189,6 +189,38 @@ def similarity_to_control(embeddings: dict[str, np.ndarray], rng) -> pd.DataFram
     return pd.DataFrame(rows)
 
 
+def internal_ceiling(embeddings: dict[str, np.ndarray], rng=None) -> dict:
+    """How similar the control is to *itself*, as a reference point for H1.
+
+    Splitting the control in half and applying the same best-match measure
+    between the halves gives the value a condition would score if it differed
+    from the control only by sampling noise. Conditions are scored against a
+    candidate pool of the same size so the comparison is like-for-like.
+    """
+    # Own generator: the value must not depend on how much randomness earlier
+    # steps happened to consume, so that the figure quoted in the paper is the
+    # figure a reader reproduces.
+    rng = np.random.default_rng(C.SEED)
+    control = embeddings["watch"]
+    half = len(control) // 2
+    ceiling = np.array([
+        mean_best_match(control[perm[half:]], control[perm[:half]])
+        for perm in (rng.permutation(len(control)) for _ in range(C.N_SUBSAMPLE_DRAWS))
+    ])
+    out = {"pool_n": half, "ceiling": round(ceiling.mean(), 4),
+           "lo": round(np.percentile(ceiling, 2.5), 4),
+           "hi": round(np.percentile(ceiling, 97.5), 4)}
+    for condition in [c for c in C.CONDITION_ORDER if c != "watch"]:
+        pool = embeddings[condition]
+        draws = np.array([
+            mean_best_match(control, pool[rng.choice(len(pool), half, replace=False)])
+            for _ in range(C.N_SUBSAMPLE_DRAWS)
+        ])
+        out[condition] = round(draws.mean(), 4)
+        out[f"{condition}_gap"] = round(ceiling.mean() - draws.mean(), 4)
+    return out
+
+
 def category_shares(corpus: pd.DataFrame) -> pd.DataFrame:
     counts = pd.crosstab(corpus["condition"], corpus["category"])
     counts = counts.reindex(C.CONDITION_ORDER)[C.CATEGORY_ORDER]
@@ -366,6 +398,12 @@ def main(window_mode: str) -> None:
     print("\n[4] H1 similarity to control")
     sim = similarity_to_control(embeddings, rng)
     print(sim.to_string(index=False))
+
+    ceil = internal_ceiling(embeddings, rng)
+    print(f"\n[4c] internal ceiling: control vs itself at pool n={ceil['pool_n']}")
+    print(f"    ceiling: {ceil['ceiling']}  95% [{ceil['lo']}, {ceil['hi']}]")
+    for c in ["like", "notInt", "combined"]:
+        print(f"    {c:<9} {ceil[c]}  ({ceil[c + '_gap']} below ceiling)")
 
     print("\n[5] category shares (pooled)")
     print(category_shares(corpus).to_string())
