@@ -122,4 +122,16 @@ was obtained.
 
 ## Citation
 
-See `CITATION.cff`.
+If you use this dataset or code, please cite the paper:
+
+```bibtex
+@misc{cho2026twobuttons,
+  title        = {Two Buttons, One Feed: Aligning YouTube Recommendations Requires Both Controls},
+  author       = {Cho, Desiree and Hale, Scott A. and Zhao, Jun and Shadbolt, Nigel and Przybylski, Andrew K.},
+  year         = {2026},
+  note         = {Preprint; under review}
+}
+```
+
+Machine-readable metadata is in `CITATION.cff`. This entry will be replaced with
+the published reference if the paper is accepted.
