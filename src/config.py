@@ -114,3 +114,13 @@ LLM_TO_CATEGORY = {
 }
 
 CATEGORY_ORDER = ["mainstream", "generic", "puzzle"]
+
+# --- Label validation ------------------------------------------------------
+# Keyword patterns used to bound gross misclassification (see validate_labels).
+# These settle the gaming / non-gaming distinction only; they cannot adjudicate
+# the finer puzzle / generic-gaming split.
+KW_PUZZLE = (r"tetris|puyo|lumines|the witness|talos|gardens between|"
+             r"baba is you|sudoku|jigsaw|rubik|portal 2|puzzle")
+KW_GAMING = (r"gameplay|walkthrough|speedrun|lets play|minecraft|fortnite|"
+             r"roblox|mario|nintendo|playstation|xbox|steam|boss fight|fps")
+KW_NONGAMING = r"lofi|lo fi|hip hop|asmr|rainstorm|thunder|study music|sleep music|deep focus"

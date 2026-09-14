@@ -59,8 +59,9 @@ def wrangle(df: pd.DataFrame, window_mode: str = None) -> pd.DataFrame:
         kept.append(block)
 
     out = pd.concat(kept, ignore_index=True)
-    if C.EXCLUDE_FAILED_ACCOUNT:
-        out = out[out["persona"] != C.FAILED_ACCOUNT].reset_index(drop=True)
+    # NOTE: the failed-account exclusion is applied *after* timestamp alignment
+    # (see apply_exclusions), because the shipped embeddings include that
+    # account's rows and dropping them here would break the alignment.
     out["cleanTitle"] = out["title"].map(clean_title)
     out["period"] = np.where(out["firstSeen"] > C.TRAINING_END, "post", "train")
     return out
@@ -238,6 +239,35 @@ def interaction(corpus: pd.DataFrame) -> dict:
     }
 
 
+def validate_labels(corpus: pd.DataFrame) -> dict:
+    """Bound gross misclassification against keyword-identifiable titles.
+
+    Keywords can settle the gaming / non-gaming distinction but not the finer
+    puzzle / generic-gaming one, so this bounds cross-boundary error only.
+    """
+    # Restrict to LLM-labelled rows: the clustered rows take their category
+    # from the cluster, so including them would not validate the LLM step.
+    corpus = corpus[corpus["cluster"].isna()]
+    t = corpus["cleanTitle"].str.lower()
+    puz = t.str.contains(C.KW_PUZZLE, regex=True, na=False)
+    gam = t.str.contains(C.KW_GAMING, regex=True, na=False) & ~puz
+    non = t.str.contains(C.KW_NONGAMING, regex=True, na=False) & ~puz & ~gam
+    n = int(puz.sum() + gam.sum() + non.sum())
+    errors = int(
+        (corpus.loc[puz, "category"] == "mainstream").sum()
+        + (corpus.loc[gam, "category"] == "mainstream").sum()
+        + (corpus.loc[non, "category"] != "mainstream").sum()
+    )
+    return {
+        "n_reference": n,
+        "puzzle_signal": int(puz.sum()),
+        "gaming_signal": int(gam.sum()),
+        "nongaming_signal": int(non.sum()),
+        "cross_category_errors": errors,
+        "cross_category_rate_pct": round(100 * errors / n, 2),
+    }
+
+
 def missingness(wrangled: pd.DataFrame) -> pd.DataFrame:
     """Records per condition per date, showing the capture outage."""
     table = pd.crosstab(
@@ -271,6 +301,16 @@ def load_embeddings() -> pd.DataFrame:
     return index
 
 
+def apply_exclusions(corpus: pd.DataFrame) -> pd.DataFrame:
+    """Drop the failed not-interested account, if configured.
+
+    Applied after alignment for the reason given in wrangle().
+    """
+    if not C.EXCLUDE_FAILED_ACCOUNT:
+        return corpus
+    return corpus[corpus["persona"] != C.FAILED_ACCOUNT].reset_index(drop=True)
+
+
 def apply_window(corpus: pd.DataFrame, window_mode: str) -> pd.DataFrame:
     """Filter an already-aligned corpus to the chosen observation window.
 
@@ -302,6 +342,10 @@ def main(window_mode: str) -> None:
     print(f"\n[2] aligned {len(corpus)} embedded rows to timestamps (100% required)")
 
     corpus = attach_categories(corpus)
+    if C.EXCLUDE_FAILED_ACCOUNT:
+        before = len(corpus)
+        corpus = apply_exclusions(corpus)
+        print(f"[2c] excluded {C.FAILED_ACCOUNT}: {before} -> {len(corpus)} rows")
     if window_mode != "published":
         before = len(corpus)
         corpus = apply_window(corpus, window_mode)
@@ -330,8 +374,40 @@ def main(window_mode: str) -> None:
         print(f"\n[5{'ab'[period == 'post']}] category shares ({period}-training)")
         print(category_shares(corpus[corpus["period"] == period]).to_string())
 
-    print("\n[6] interaction test")
+    for period in ("train", "post"):
+        sub = corpus[corpus["period"] == period]
+        emb_p = {
+            cond: _unit_norm(
+                np.stack(sub.loc[sub["condition"] == cond, "embedding"].values)
+                .astype(np.float64)
+            )
+            for cond in C.CONDITION_ORDER
+        }
+        print(f"\n[4{'ab'[period == 'post']}] H1 similarity, {period}-training only")
+        print(similarity_to_control(emb_p, rng).to_string(index=False))
+
+    print("\n[6] interaction test (pooled)")
     for key, value in interaction(corpus).items():
+        print(f"    {key}: {value}")
+    for period in ("train", "post"):
+        print(f"\n[6{'ab'[period == 'post']}] interaction test, {period}-training only")
+        for key, value in interaction(corpus[corpus["period"] == period]).items():
+            print(f"    {key}: {value}")
+
+    print("\n[6c] puzzle share as a ratio to the control, by period")
+    for period in ("train", "post"):
+        sub = corpus[corpus["period"] == period]
+        share = (
+            sub.groupby("condition")["category"]
+            .apply(lambda s: (s == "puzzle").mean() * 100)
+            .reindex(C.CONDITION_ORDER)
+        )
+        ratio = (share / share.iloc[0]).round(2)
+        print(f"    {period}: " + "  ".join(
+            f"{c}={share[c]:.1f}% ({ratio[c]}x)" for c in C.CONDITION_ORDER))
+
+    print("\n[8] label validation against keyword-identifiable titles")
+    for key, value in validate_labels(corpus).items():
         print(f"    {key}: {value}")
 
     print("\n[7] records per condition per date (zeros = capture outage)")
