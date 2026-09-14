@@ -142,10 +142,10 @@ If you use this dataset or code, please cite the paper:
 
 ```bibtex
 @misc{cho2026twobuttons,
-  title        = {Two Buttons, One Feed: Aligning YouTube Recommendations Requires Both Controls},
+  title        = {Two Buttons, One Feed: Aligning {YouTube} Recommendations Requires Both `Like' and `Not Interested'},
   author       = {Cho, Desiree and Hale, Scott A. and Zhao, Jun and Shadbolt, Nigel and Przybylski, Andrew K.},
   year         = {2026},
-  note         = {Preprint; under review}
+  note         = {Preprint}
 }
 ```
 
