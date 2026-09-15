@@ -46,8 +46,9 @@ outputs of it.
 
 Twelve YouTube accounts configured as 13-year-olds were trained in synchrony
 for nine daily sessions (26 May – 3 June 2025), each watching ten
-puzzle-gaming videos per day in full — ninety videos per account. Accounts were split across
-four conditions, three each:
+puzzle-gaming videos per day in full — ninety videos per account.
+Collection continued for three days after the final session. Accounts were
+split across four conditions, three each:
 
 | condition | watches | likes | marks "not interested" |
 |---|---|---|---|
