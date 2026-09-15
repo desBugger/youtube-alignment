@@ -67,9 +67,10 @@ PUBLISHED_END = {
 }
 HARMONISED_END = {c: _utc(2025, 6, 5, 8, 0) for c in CONDITIONS}
 
-# Training ran 26 May - 3 June 2025, with a break over the weekend of 31 May -
-# 1 June. The final session ended ~13:34 BST on 3 June. Records after this
-# boundary were collected with no further interaction.
+# Training ran daily 26 May - 3 June 2025: nine sessions of ten videos each,
+# the first two treated as persona creation. The final session ended ~13:34 BST
+# on 3 June. Records after this boundary were collected with no further
+# interaction, for three days.
 TRAINING_END = _utc(2025, 6, 3, 14, 0)
 
 # Video capture failed for all twelve accounts on these dates while Shorts and

@@ -5,7 +5,7 @@ feedback controls (`like` and `not interested`), run as a 2×2 factorial design
 across twelve simulated accounts.
 
 **Headline finding.** No single signal aligned the feed. Accounts that watched
-seventy on-interest videos to completion, engaging with nothing else, still
+ninety on-interest videos to completion, engaging with nothing else, still
 received on-interest recommendations one time in ten. Liking raised that to
 roughly one and a half; declining unwanted content to two. Only using **both**
 controls reached four in ten — and the two combine super-additively, so their
@@ -45,8 +45,8 @@ outputs of it.
 ## The experiment
 
 Twelve YouTube accounts configured as 13-year-olds were trained in synchrony
-for seven daily sessions (26 May – 3 June 2025, with a weekend break), each
-watching ten puzzle-gaming videos per day in full. Accounts were split across
+for nine daily sessions (26 May – 3 June 2025), each watching ten
+puzzle-gaming videos per day in full — ninety videos per account. Accounts were split across
 four conditions, three each:
 
 | condition | watches | likes | marks "not interested" |
@@ -132,7 +132,7 @@ Dependencies: `sentence-transformers` (Apache 2.0), `all-MiniLM-L6-v2`
 
 No human subjects. All twelve accounts were created by the researchers and the
 records are public video metadata served to those accounts. The study used a
-small number of accounts over one week on age-appropriate content to limit any
+small number of accounts over nine days on age-appropriate content to limit any
 effect on recommendations served to real users. Institutional ethics approval
 was obtained.
 

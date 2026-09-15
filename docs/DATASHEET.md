@@ -62,9 +62,9 @@ channels and timestamps are captured in full and do not depend on the platform.
 2020), captured logged-in homepage recommendations hourly. The YouTube API does
 not expose homepage recommendations, so browser-based collection was necessary.
 
-**Over what period?** 26 May – 6 June 2025. Training sessions ran 26 May –
-3 June with a weekend break; collection continued three days past the final
-session, which the paper uses to test persistence.
+**Over what period?** 26 May – 6 June 2025. Training sessions ran daily 26 May –
+3 June (nine sessions, ten videos each); collection continued three days past
+the final session, which the paper uses to test persistence.
 
 **Sampling.** Not a sample. It is the complete capture for twelve accounts in a
 2×2 factorial design (three replicates per cell) crossing `like` and
@@ -76,7 +76,7 @@ ensure consistent judgement on ambiguous cases; capture was automated.
 
 **Ethics.** No human subjects; no consent was required or sought, as no personal
 data were collected. Institutional ethics approval was obtained. Scale was kept
-small (12 accounts, one week, age-appropriate content) to limit any effect on
+small (12 accounts, nine days, age-appropriate content) to limit any effect on
 recommendations served to real users.
 
 ## Preprocessing
@@ -102,7 +102,7 @@ expressed interests; temporal dynamics at hourly resolution; channel-level
 concentration.
 
 **Uses to avoid.** The data reflect one platform, one interest, one age profile,
-and one week in 2025. YouTube's recommender changes continuously and runs
+and a nine-day training period in 2025. YouTube's recommender changes continuously and runs
 concurrent experiments. Absolute values should not be treated as stable platform
 properties; the comparative structure between conditions is what the design
 supports. The data cannot support claims about real users' behaviour, since no
