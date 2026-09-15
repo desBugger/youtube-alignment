@@ -110,8 +110,9 @@ real users were observed.
 
 ## Distribution
 
-Public, under CC BY 4.0, via GitHub, Hugging Face, and an archival deposit with
-a persistent identifier.
+Public, under CC BY 4.0. Code and data: <https://github.com/desBugger/youtube-alignment>. Dataset mirror with dataset
+card: <https://huggingface.co/datasets/cho-ai/youtube-alignment-data>. An archival deposit with a persistent identifier will follow on
+publication.
 
 ## Maintenance
 

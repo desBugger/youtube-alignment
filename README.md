@@ -4,6 +4,8 @@ Data and analysis code for a controlled simulated user audit of YouTube's explic
 feedback controls (`like` and `not interested`), run as a 2×2 factorial design
 across twelve simulated accounts.
 
+The dataset is also on Hugging Face: [`cho-ai/youtube-alignment-data`](https://huggingface.co/datasets/cho-ai/youtube-alignment-data).
+
 **Headline finding.** No single signal aligned the feed. Accounts that watched
 ninety on-interest videos to completion, engaging with nothing else, still
 received on-interest recommendations one time in ten. Liking raised that to
@@ -92,6 +94,9 @@ Only `video` rows are analysed in the paper. The Shorts and advertisement
 records are released and not analysed.
 
 Every account was created by the researchers.
+
+The same files are mirrored on Hugging Face at
+[`cho-ai/youtube-alignment-data`](https://huggingface.co/datasets/cho-ai/youtube-alignment-data), with a dataset card and the datasheet.
 
 ## Known data issues
 
